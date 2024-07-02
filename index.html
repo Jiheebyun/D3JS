@@ -13,17 +13,31 @@
     </svg>
 
     <svg width="100" height="100">
-        <circle cx="50" cy="100" r="25" style="fill: blue">
+        <circle cx="50" cy="50" r="25" style="fill: blue">
     </svg>
 
     <h1>D3 JS</h1>
     <script>
-        d3.select("body")
-            .append("svg")
+        var w = 500;
+        var h  = 100;
+        var padding = 2;
+        var dataset = [5, 10, 15, 20, 25];
+        var svg = d3.select("body")
+                    .append("svg")
+                    .attr("width", w)
+                    .attr("height", h)
+                    .style('fill', "gray")
+
+        svg.selectAll("rect")
+            .data(dataset)
+            .enter()
             .append("rect")
-            .attr("width", 50)
-            .attr("height", 200)
-            .style("filㅣ", "red")
+                .attr("x", function(d, i){ return (i * 25)})
+                .attr("y", function (d){
+                    console.log(h - d)
+                    return h - (d * 3)})
+                .attr("width", 20)
+                .attr("height", function(d){ return d * 3 })
     </script>
     
 </body>
