@@ -104,7 +104,8 @@
 
         //actually draws a line graph
         var lineFun = d3.svg.line()
-            .x(function(d){ return d.month*5 })
+            .x(function(d, i){ 
+                return d.month*5 })
             .y(function(d){ return h - d.sales; })
             .interpolate("linear");
         
@@ -127,9 +128,13 @@
                         .text(function(d){ return d.sales })
                         .attr({
                             x: function(d){ return d.month * 5 + 5 },
-                            y: function(d) { return h - d.sales }
+                            y: function(d) { return h - d.sales },
+                            "font-size" : "12px",
+                            "font-familt" : "sans-serif",
+                            "fill" : "#666666",
+                            "text-anchor" : "start",
+                            "dy" : ".85em"
                         })
-                        .style({"font-weight": 600})
         
     </script>
     
