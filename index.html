@@ -85,6 +85,68 @@
 
         //LINE CHART 
 
+        // var h = 300;
+        // var w = 500;
+
+        // monthlySales = [
+        //     {"month": 10, "sales": 200},
+        //     {"month": 20, "sales": 150},
+        //     {"month": 30, "sales": 140},
+        //     {"month": 40, "sales": 200},
+        //     {"month": 50, "sales": 210},
+        //     {"month": 60, "sales": 150},
+        //     {"month": 70, "sales": 220},
+        //     {"month": 80, "sales": 90},
+        //     {"month": 90, "sales": 240},
+        //     {"month": 100, "sales": 170},
+        // ];
+        
+
+        // //actually draws a line graph
+        // var lineFun = d3.svg.line()
+        //     .x(function(d, i){ 
+        //         return d.month*3 })
+        //     .y(function(d){ return h - d.sales; })
+        //     .interpolate("linear");
+        
+        // //a size of scope that wrap the line graph 
+        // var svg = d3.select("body")
+        //             .append("svg")
+        //             .attr({width: w, height: h});
+
+        // var viz = svg.append("path")
+        //             .attr({d: lineFun(monthlySales),
+        //                     "stroke" : "purple",
+        //                     "stroke-width" : 2, //여기선 라인그래프 두꼐 또는 도형을 그릴떄는 외곽선 고정 , svg영역안에 있는 도형의 크기가 변경되면 stroke-width를 지정하지 않을경우  padding이 안에있는 도형크기데 따라 변경되는것을 방지  
+        //                     "fill" : "none"
+        //             });
+
+        // var lables = svg.selectAll("text")
+        //                 .data(monthlySales)
+        //                 .enter()
+        //                 .append("text")
+        //                 .text(function(d){ return d.sales })
+        //                 .attr({
+        //                     x: function(d){ return d.month * 5 + 5 },
+        //                     y: function(d) { return h - d.sales },
+        //                     "font-size" : "12px",
+        //                     "font-familt" : "sans-serif",
+        //                     "fill" : "#666666",
+        //                     "text-anchor" : "start",
+        //                     "dy" : ".85em",
+        //                     "font-weigth" : function(d, i) { 
+        //                         if( i === 0 || i === (monthlySales.length-1)){
+        //                             return "bold"
+        //                         } else {
+        //                             return "normal"
+        //                         } 
+        //                     }
+        //                 })
+
+
+
+        //scatter plot 
+
         var h = 300;
         var w = 500;
 
@@ -98,43 +160,55 @@
             {"month": 70, "sales": 220},
             {"month": 80, "sales": 90},
             {"month": 90, "sales": 240},
-            {"month": 100, "sales": 70},
+            {"month": 100, "sales": 170},
         ];
-        
 
-        //actually draws a line graph
-        var lineFun = d3.svg.line()
-            .x(function(d, i){ 
-                return d.month*5 })
-            .y(function(d){ return h - d.sales; })
-            .interpolate("linear");
-        
-        //a size of scope that wrap the line graph 
-        var svg = d3.select("body")
+        function salesKPI(d) {
+            if( d>=240 ){
+                return "#33CC66"
+            }else if ( d<100 ){
+                return "#666666"
+            }
+        };
+        function showMinMax(ds, col, val, type) {
+            var max = d3.max(ds, function(d){ return d[col] });
+            console.log(max)
+            var min = d3.min(ds, function(d){ return d[col] });
+            console.log(min)
+            if (type === 'minmax' && (val == max || val == min)){
+                return val
+            }else if(type === "all") {
+                return val
+            }
+        }
+        var  svg = d3.select("body")
                     .append("svg")
                     .attr({width: w, height: h});
 
-        var viz = svg.append("path")
-                    .attr({d: lineFun(monthlySales),
-                            "stroke" : "purple",
-                            "stroke-width" : 2, //여기선 라인그래프 두꼐 또는 도형을 그릴떄는 외곽선 고정 , svg영역안에 있는 도형의 크기가 변경되면 stroke-width를 지정하지 않을경우  padding이 안에있는 도형크기데 따라 변경되는것을 방지  
-                            "fill" : "none"
-                    });
+        var dots = svg.selectAll("circle")
+                    .data(monthlySales)
+                    .enter()
+                    .append("circle")
+                    .attr({
+                        cx: function(d){ return d.month*3 },
+                        cy: function(d){ return h-d.sales },
+                        r: 5,
+                        "fill" : function(d) { return salesKPI(d.sales) }
+                    })
 
-        var lables = svg.selectAll("text")
+        var labels = svg.selectAll("text")
                         .data(monthlySales)
                         .enter()
                         .append("text")
-                        .text(function(d){ return d.sales })
+                        .text( function(d){ return showMinMax(monthlySales, "sales", d.sales, "minmax"); })
                         .attr({
-                            x: function(d){ return d.month * 5 + 5 },
-                            y: function(d) { return h - d.sales },
+                            x: function(d){ return (d.month*3) - 28 },
+                            y: function(d){ return h-d.sales },
                             "font-size" : "12px",
-                            "font-familt" : "sans-serif",
+                            "font-family" : "sans-serif",
                             "fill" : "#666666",
                             "text-anchor" : "start",
-                            "dy" : ".85em"
-                        })
+                        });
         
     </script>
     
