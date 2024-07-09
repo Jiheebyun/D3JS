@@ -4,7 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="http://d3js.org/d3.v3.min.js" charset="UTF-8"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        /* CSS 스타일링 (선택 사항) */
+        .line {
+            fill: none;
+            stroke: steelblue;
+            stroke-width: 2px;
+        }
+    </style>
 </head>
 <body>
     <h1>SVG BAR</h1>
@@ -147,69 +155,128 @@
 
         //scatter plot 
 
-        var h = 300;
-        var w = 500;
+        // var h = 300;
+        // var w = 500;
 
-        monthlySales = [
-            {"month": 10, "sales": 200},
-            {"month": 20, "sales": 150},
-            {"month": 30, "sales": 140},
-            {"month": 40, "sales": 200},
-            {"month": 50, "sales": 210},
-            {"month": 60, "sales": 150},
-            {"month": 70, "sales": 220},
-            {"month": 80, "sales": 90},
-            {"month": 90, "sales": 240},
-            {"month": 100, "sales": 170},
+        // monthlySales = [
+        //     {"month": 10, "sales": 200},
+        //     {"month": 20, "sales": 150},
+        //     {"month": 30, "sales": 140},
+        //     {"month": 40, "sales": 200},
+        //     {"month": 50, "sales": 210},
+        //     {"month": 60, "sales": 150},
+        //     {"month": 70, "sales": 220},
+        //     {"month": 80, "sales": 90},
+        //     {"month": 90, "sales": 240},
+        //     {"month": 100, "sales": 170},
+        // ];
+
+        // function salesKPI(d) {
+        //     if( d>=240 ){
+        //         return "#33CC66"
+        //     }else if ( d<100 ){
+        //         return "#666666"
+        //     }
+        // };
+        // function showMinMax(ds, col, val, type) {
+        //     var max = d3.max(ds, function(d){ return d[col] });
+        //     console.log(max)
+        //     var min = d3.min(ds, function(d){ return d[col] });
+        //     console.log(min)
+        //     if (type === 'minmax' && (val == max || val == min)){
+        //         return val
+        //     }else if(type === "all") {
+        //         return val
+        //     }
+        // }
+        // var  svg = d3.select("body")
+        //             .append("svg")
+        //             .attr({width: w, height: h});
+
+        // var dots = svg.selectAll("circle")
+        //             .data(monthlySales)
+        //             .enter()
+        //             .append("circle")
+        //             .attr({
+        //                 cx: function(d){ return d.month*3 },
+        //                 cy: function(d){ return h-d.sales },
+        //                 r: 5,
+        //                 "fill" : function(d) { return salesKPI(d.sales) }
+        //             })
+
+        // var labels = svg.selectAll("text")
+        //                 .data(monthlySales)
+        //                 .enter()
+        //                 .append("text")
+        //                 .text( function(d){ return showMinMax(monthlySales, "sales", d.sales, "minmax"); })
+        //                 .attr({
+        //                     x: function(d){ return (d.month*3) - 28 },
+        //                     y: function(d){ return h-d.sales },
+        //                     "font-size" : "12px",
+        //                     "font-family" : "sans-serif",
+        //                     "fill" : "#666666",
+        //                     "text-anchor" : "start",
+        //                 });
+        
+
+        
+    //JSON 
+
+    var dataset = [
+            {"Month": "January", "Sales": 3400},
+            {"Month": "February", "Sales": 2800},
+            {"Month": "March", "Sales": 3900},
+            {"Month": "April", "Sales": 4200},
+            {"Month": "May", "Sales": 3500},
+            {"Month": "June", "Sales": 5000},
+            {"Month": "July", "Sales": 4800},
+            {"Month": "August", "Sales": 3800},
+            {"Month": "September", "Sales": 4100},
+            {"Month": "October", "Sales": 3700}
         ];
 
-        function salesKPI(d) {
-            if( d>=240 ){
-                return "#33CC66"
-            }else if ( d<100 ){
-                return "#666666"
-            }
-        };
-        function showMinMax(ds, col, val, type) {
-            var max = d3.max(ds, function(d){ return d[col] });
-            console.log(max)
-            var min = d3.min(ds, function(d){ return d[col] });
-            console.log(min)
-            if (type === 'minmax' && (val == max || val == min)){
-                return val
-            }else if(type === "all") {
-                return val
-            }
-        }
-        var  svg = d3.select("body")
+        // SVG 요소 크기 설정
+        var svgWidth = 800;
+        var svgHeight = 400;
+
+        // SVG 요소 생성
+        var svg = d3.select("body")
                     .append("svg")
-                    .attr({width: w, height: h});
+                    .attr("width", svgWidth)
+                    .attr("height", svgHeight);
 
-        var dots = svg.selectAll("circle")
-                    .data(monthlySales)
-                    .enter()
-                    .append("circle")
-                    .attr({
-                        cx: function(d){ return d.month*3 },
-                        cy: function(d){ return h-d.sales },
-                        r: 5,
-                        "fill" : function(d) { return salesKPI(d.sales) }
-                    })
+        // x 축 스케일
+        var xScale = d3.scaleBand()
+                       .domain(dataset.map(d => d.Month))
+                       .range([0, svgWidth])
+                       .padding(0.1);
 
-        var labels = svg.selectAll("text")
-                        .data(monthlySales)
-                        .enter()
-                        .append("text")
-                        .text( function(d){ return showMinMax(monthlySales, "sales", d.sales, "minmax"); })
-                        .attr({
-                            x: function(d){ return (d.month*3) - 28 },
-                            y: function(d){ return h-d.sales },
-                            "font-size" : "12px",
-                            "font-family" : "sans-serif",
-                            "fill" : "#666666",
-                            "text-anchor" : "start",
-                        });
-        
+        // y 축 스케일
+        var yScale = d3.scaleLinear()
+                       .domain([0, d3.max(dataset, d => d.Sales)]) 
+                       .nice()
+                       .range([svgHeight, 0]);
+
+        // 선 생성기
+        var line = d3.line()
+                     .x(d => xScale(d.Month) + xScale.bandwidth() / 2) 
+                     .y(d => yScale(d.Sales));
+
+        // 선 그리기
+        svg.append("path")
+           .datum(dataset)
+           .attr("class", "line")
+           .attr("d", line);
+
+        // x 축 생성
+        svg.append("g")
+           .attr("transform", "translate(0," + svgHeight + ")")
+           .call(d3.axisBottom(xScale));
+
+        // y 축 생성
+        svg.append("g")
+           .call(d3.axisLeft(yScale));
+
     </script>
     
 </body>
