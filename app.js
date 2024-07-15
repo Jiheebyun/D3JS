@@ -32,3 +32,24 @@ console.log(body)
 //  .selectAll("p")
 //  .data(dataset)
 //  .text(function( d )){return d }) // 조작이 가능하다.
+
+// exit() 메서드는 데이터보다 요소가 많을떄 데이터와 연결되지 않은 요소는 제거된다.
+
+//
+{/* <ul id = "list">
+   <li></li>
+   <li></li>
+</ul>  */}
+// d3.select("#list").selectAll("li")
+//    .data([10, 20, 30, 25, 15])
+//    .text(function(d) { return "전에 존재하던 요소들: " + d; })
+//    .enter()
+//    .append("li")
+//    .text(function(d) 
+//       { return "새롭게 동적으로 추가된 요소들: " + d; });
+
+
+
+
+
+
