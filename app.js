@@ -63,4 +63,13 @@ console.log(body)
 // const data = await d3.json('data')
 //}
 
+//CSV Requests
+//
+//async function getData() {
+//    const data = await d3.csv('data')
+//
+//}
+// return -> {{...}, columns: arrary}
+// d3가 자동으로 첫번째 row를 columns로 인식하여 columns를 따로 return함
+
 
