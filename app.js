@@ -49,7 +49,18 @@ console.log(body)
 //       { return "새롭게 동적으로 추가된 요소들: " + d; });
 
 
+//Update Pattern 
+//el.enter() -  기존에 있는 요소에 데이터를 추가 
+//el.exit() -  요소를 제어제거
+//el.join() - 데이터만틈의 요소를 생성하여 데이터를 추가 
 
 
+//JSON Requests
+//
+//d3.json('data.json').then((data)=>{   }) //arguments -> file path, 
+//
+//async function getData() {
+// const data = await d3.json('data')
+//}
 
 
