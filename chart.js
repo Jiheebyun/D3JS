@@ -4,6 +4,10 @@
 async function draw () {
     const dataset = await d3.json('data.json');
     console.log(dataset)
+
+    const xAccessor = (d) => d.currently.humidity;
+    const yAccessor = (d) => d.currently.apparentTemperature;
+
     //Dimensions
     let dimensions = {
         width: 800,
@@ -24,8 +28,16 @@ async function draw () {
     const container = svg.append('g')
         .attr('transform',`translate(${dimensions.margin.left}, ${dimensions.margin.top})`)
 
-    container.append('circle')
-        .attr('r', 15)
+
+    //Draw Circle
+
+    container.selectAll('circle')
+        .data(dataset)
+        .join('circle')
+        .attr('cx', xAccessor)
+        .attr('cy', yAccessor)
+        .attr('r', 5)
+        .attr('fill', 'red')
 };
 
 
